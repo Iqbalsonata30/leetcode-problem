@@ -25,7 +25,6 @@ fn isPalindrome(x: i32) bool {
 test isPalindrome {
     const inputs = [_]i32{ 121, -121, 10, 33 };
     const outputs = [_]bool{ true, false, false, true };
-
     for (inputs, outputs) |input, output| {
         const res = isPalindrome(input);
         try expect(res == output);

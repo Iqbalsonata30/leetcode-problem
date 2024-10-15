@@ -19,7 +19,7 @@ const std = @import("std");
 const allocator = std.testing.allocator;
 const expect = std.testing.expect;
 
-fn TwoSum(nums: []i32, target: i32) ![2]i32 {
+fn twoSum(nums: []i32, target: i32) ![2]i32 {
     var m = std.AutoHashMap(i32, i32).init(allocator);
     defer m.deinit();
 
@@ -34,14 +34,14 @@ fn TwoSum(nums: []i32, target: i32) ![2]i32 {
     return error.InvalidNumber;
 }
 
-test "two sum" {
+test twoSum {
     var nums = [_]i32{ 3, 2, 4 };
     const expected = [2]i32{ 1, 2 };
     var start: usize = 0;
     _ = &start;
     const target: i32 = 6;
 
-    const out = try TwoSum(nums[start..nums.len], target);
+    const out = try twoSum(nums[start..nums.len], target);
     try expect(std.mem.eql(i32, &out, &expected));
 }
 
