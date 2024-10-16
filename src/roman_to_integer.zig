@@ -14,27 +14,6 @@
 // Output: 1994
 // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 //
-//  1000 > 0
-//  1000
-//  1000 > 100
-//  1100
-//  100 > 1000
-//  1100 - (100 * 2) + 1000
-//  1900
-//  1000 > 10
-//  1910
-//  10 > 100
-//  1910 - (10 * 2) + 100
-//  1990
-//  100 > 1
-//  1991
-//  1 > 5
-//  1991 - (1 * 2) + 5
-//  1889 + 5
-//  1994
-//
-//
-//
 // s only contain characters ('I', 'V', 'X', 'L', 'C', 'D', 'M')
 
 const std = @import("std");
@@ -56,13 +35,13 @@ fn romanToInt(s: []const u8) !i32 {
     }
 
     var result: i32 = 0;
-    var prev: i32 = if (map.contains(s[0])) map.get(s[0]).? else 0;
+    const limit = s.len - 1;
 
-    for (s) |c| {
+    for (s, 0..) |c, i| {
         if (map.contains(c)) {
-            result = if (prev >= map.get(c).?) result + map.get(c).? else result - (prev * 2) + map.get(c).?;
+            const val: i32 = map.get(c).?;
+            result = if (i < limit and val < map.get(s[i + 1]).?) result - val else result + val;
         }
-        prev = map.get(c).?;
     }
 
     return result;
