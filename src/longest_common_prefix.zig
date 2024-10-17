@@ -34,10 +34,7 @@ fn longestCommonPrefix(strs: [][]const u8) []const u8 {
             }
         }
     }
-
-    if (i == 0) return "";
-
-    return strs[0][0..i];
+    return if (i == 0) "" else strs[0][0..i];
 }
 
 const TestCase = struct {
