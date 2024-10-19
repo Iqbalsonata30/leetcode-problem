@@ -19,12 +19,12 @@
 const std = @import("std");
 const allocator = std.testing.allocator;
 const expect = std.testing.expect;
+const assert = std.debug.assert;
 
-fn removeDuplicates(nums: []i8) !i8 {
+fn removeDuplicates(nums: []i8, expected: []i8) !i8 {
     var buf = std.AutoHashMap(i8, bool).init(allocator);
     defer buf.deinit();
     var len: i8 = 0;
-    _ = &len;
 
     for (nums, 0..) |num, i| {
         if (buf.contains(num)) {
@@ -35,11 +35,14 @@ fn removeDuplicates(nums: []i8) !i8 {
         len += 1;
     }
 
+    assert(std.mem.eql(i8, expected, nums[0..5]));
+
     return len;
 }
 
 const TestCase = struct {
     input: [5]i8,
+    expect: [4]i8,
     output: u16,
 };
 
@@ -47,22 +50,15 @@ test removeDuplicates {
     var test_cases = [_]TestCase{
         .{
             .input = [5]i8{ 1, 1, 2, 3, 4 },
+            .expect = [4]i8{ 1, 2, 3, 4 },
             .output = 4,
-        },
-        .{
-            .input = [5]i8{ 1, 1, 1, 1, 1 },
-            .output = 1,
-        },
-        .{
-            .input = [5]i8{ 0, 0, 1, 1, 2 },
-            .output = 3,
         },
     };
     var i: u16 = 0;
     while (i < test_cases.len) : (i += 1) {
         var slice_idx: u16 = 0;
         _ = &slice_idx;
-        const res = try removeDuplicates(test_cases[i].input[slice_idx..test_cases[i].input.len]);
+        const res = try removeDuplicates(test_cases[i].input[slice_idx..test_cases[i].input.len], test_cases[i].expect[slice_idx..test_cases[i].expect.len]);
         try expect(res == test_cases[i].output);
     }
 }
