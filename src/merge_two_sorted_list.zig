@@ -54,7 +54,7 @@ fn initNode(val: i8, next: ?*ListNode) !*ListNode {
     return node;
 }
 
-fn mergeTwoLists(list1: *ListNode, list2: *ListNode) *ListNode {
+fn mergeTwoLists(list1: ?*ListNode, list2: ?*ListNode) *ListNode {
     var list_node: ListNode = .{ .val = undefined };
     var current_node: *ListNode = &list_node;
     var l1: ?*ListNode = list1;
@@ -98,6 +98,6 @@ test mergeTwoLists {
     _ = &list2_node2;
     _ = &list2_node1;
 
-    const res = mergeTwoLists(list1_node1, list2_node1);
+    const res = mergeTwoLists(null, list2_node1);
     std.debug.print("list node :{any}\n", .{res});
 }
