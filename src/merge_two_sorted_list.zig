@@ -60,27 +60,26 @@ fn mergeTwoLists(list1: *ListNode, list2: *ListNode) *ListNode {
     var l1: ?*ListNode = list1;
     var l2: ?*ListNode = list2;
 
-    // l1 = 1,2,4
+    // l1 = 1,
     // l2 = 1,3,4
     while (l1 != null or l2 != null) {
-        const v1: i8 = if (l1) |ln1| ln1.val else 0;
-        const v2: i8 = if (l2) |ln2| ln2.val else 0;
-
-        if (l1 != null and l2 != null and v1 <= v2 and v1 != 0 or l2 != null) {
-            current_node = if (l1) |ln1| ln1 else continue;
-            l1 = l1.?.next;
-        } else if (l2 != null and v2 != 0) {
-            current_node.val = l2.?.val;
-            current_node.next = l2.?.next;
-            l2 = l2.?.next;
+        if (l1 != null and l2 != null and l1.?.val <= l2.?.val or l2 == null) {
+            if (l1) |ln1| {
+                current_node.next = ln1;
+                l1 = ln1.next;
+            }
+        } else if (l2 != null) {
+            if (l2) |ln2| {
+                current_node.next = ln2;
+                l2 = ln2.next;
+            }
+        } else {
+            break;
         }
-        std.debug.print("current node : {any}\n", .{current_node});
         if (current_node.next) |next_node| {
             current_node = next_node;
         }
-        std.debug.print("l1 : {any}\n l2 : {any}\n", .{ v1, v2 });
     }
-    std.debug.print("list node : {any}\n ", .{list_node});
     return list_node.next.?;
 }
 
@@ -100,6 +99,5 @@ test mergeTwoLists {
     _ = &list2_node1;
 
     const res = mergeTwoLists(list1_node1, list2_node1);
-
-    _ = res;
+    std.debug.print("list node :{any}\n", .{res});
 }
