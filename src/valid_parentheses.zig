@@ -36,7 +36,6 @@ fn isValid(s: []const u8) !bool {
     for (open_parentheses, close_parentheses) |open_p, close_p| {
         try map.put(open_p, close_p);
     }
-
     var stack = std.ArrayList(u8).init(allocator);
     defer stack.deinit();
 
