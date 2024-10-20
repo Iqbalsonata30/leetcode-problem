@@ -32,12 +32,11 @@ const assert = std.debug.assert;
 
 fn removeDuplicates(nums: []i8) u16 {
     var k: u16 = 0;
-    var i: usize = 0;
 
-    while (i < nums.len) : (i += 1) {
-        if (nums[k] != nums[i]) {
+    for (nums) |num| {
+        if (nums[k] != num) {
             k += 1;
-            nums[k] = nums[i];
+            nums[k] = num;
         }
     }
 
