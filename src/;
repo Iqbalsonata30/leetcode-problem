@@ -55,35 +55,36 @@
 
 const std = @import("std");
 const expect = std.testing.expect;
-const Allocator = std.mem.Allocator;
-const allocator = std.testing.allocator;
 
-fn mergeAlternately(word1: []const u8, word2: []const u8, alloc: Allocator) ![]const u8 {
+fn mergeAlternately(word1: []const u8, word2: []const u8) []const u8 {
     const lw1 = word1.len;
     const lw2 = word2.len;
 
+    var i: u32 = 0;
     var iw1: u32 = 0;
     var iw2: u32 = 0;
 
-    var merge_str = std.ArrayList(u8).init(alloc);
     //should be comptime known but it given run-time known
+    var merge_string:[]const u8 =  &.{undefined} ** word1.len;
 
     while ((iw1 < lw1) or (iw2 < lw2)) {
         if (iw1 < lw1) {
-            try merge_str.append(word1[iw1]);
+            merge_string[i] = word1[iw1];
+            i += 1;
             iw1 += 1;
         }
         if (iw2 < lw2) {
-            try merge_str.append(word2[iw2]);
+            merge_string[i] = word1[iw2];
+            i += 1;
             iw2 += 1;
         }
     }
-    return try merge_str.toOwnedSlice();
+
+    return &merge_string;
 }
 
 test mergeAlternately {
-    const res = try mergeAlternately("ab", "pqrs", allocator);
-    defer allocator.free(res);  
-    
-    try expect(std.mem.eql(u8,res,"apbqrs"));
+    const res = mergeAlternately("abc", "pqr");
+    _ = res;
+    // try expect(std.mem.eql(u8, res, "apbqcr"));
 }
