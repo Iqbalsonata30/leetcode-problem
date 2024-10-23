@@ -1,3 +1,20 @@
+// Step
+//  find the lowest string
+//  Set base to the lowest string
+//  iterate the string
+//  find the prefix len
+//  if the remainder of the lowest string mod prefix len is not equal 0 skip it
+//  set the prefix to the index
+//
+//  compare both of strings to the prefix
+//  if each of string doesn't have same length with prefix break it
+//  if does find the prefix index
+//  and compare it character in the string with each character in the prefix
+//  because we iterate the string, in case of string's length greater than prefix's length find the way
+//  if each of character is not equal break it
+//  if it is return true
+//
+
 const std = @import("std");
 const expect = std.testing.expect;
 
