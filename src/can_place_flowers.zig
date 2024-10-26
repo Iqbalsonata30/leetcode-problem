@@ -31,25 +31,29 @@ fn canPlaceFlowers(flowerbed: []i32, n: i32) bool {
 }
 
 const TestCase = struct {
-    input: []const i32,
+    input: []i32,
     flower: i32,
     output: bool,
 };
 
 test canPlaceFlowers {
+    var input1 = [5]i32{ 1, 0, 0, 0, 1 };
+    var input2 = [5]i32{ 1, 0, 0, 0, 1 };
+    var input3 = [7]i32{ 1, 0, 0, 0, 1, 0, 0 };
+
     const test_cases = [_]TestCase{
         .{
-            .input = &[_]i32{ 1, 0, 0, 0, 1 },
+            .input = &input1,
             .flower = 2,
             .output = false,
         },
         .{
-            .input = &[_]i32{ 1, 0, 0, 0, 1 },
+            .input = &input2,
             .flower = 1,
             .output = true,
         },
         .{
-            .input = &[_]i32{ 1, 0, 0, 0, 1, 0, 0 },
+            .input = &input3,
             .flower = 2,
             .output = true,
         },
