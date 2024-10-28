@@ -13,14 +13,11 @@
 
 const std = @import("std");
 const expect = std.testing.expect;
-const allocator = std.heap.page_allocator;
+const allocator = std.testing.allocator;
 
-fn reverseVowels(s: []const u8) []const u8 {
-    var output = allocator.dupe(u8, s) catch |err| {
-        std.debug.print("error : {?}\n", .{err});
-        unreachable;
-    };
-    _ = &output;
+fn reverseVowels(s: []const u8) ![]const u8 {
+    var slice_str = try allocator.dupe(u8, s);
+    defer allocator.free(slice_str);
     var i: usize = 0;
     var j: usize = s.len - 1;
     while (i < j) {
@@ -31,14 +28,14 @@ fn reverseVowels(s: []const u8) []const u8 {
             j -= 1;
         }
         if (i < j) {
-            const high: u8 = s[j];
-            std.mem.replaceScalar(u8, output, s[i], high);
+            slice_str[i] ^= slice_str[j];
+            slice_str[j] ^= slice_str[i];
+            slice_str[i] ^= slice_str[j];
             i += 1;
             j -= 1;
         }
     }
-    std.debug.print(" {s}\n", .{output});
-    return "";
+    return slice_str;
 }
 
 fn isVowels(c: u8) bool {
@@ -63,7 +60,7 @@ test reverseVowels {
     };
 
     for (test_cases) |tc| {
-        const res = reverseVowels(tc.input);
+        const res = try reverseVowels(tc.input);
         _ = res;
     }
 }
